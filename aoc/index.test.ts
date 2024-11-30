@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, it, expect, vi } from "vitest";
 
-import aoc from "./index.ts";
+import aoc from "./index";
 import * as path from "path";
 
 // /aoc
