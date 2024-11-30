@@ -1,0 +1,24 @@
+{
+  "name": "aoc-2024-ts",
+  "version": "1.0.0",
+  "description": "Advent of Code 2024, in typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brhubbar/aoc-2024-ts.git"
+  },
+  "author": "Ben Hubbard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brhubbar/aoc-2024-ts/issues"
+  },
+  "homepage": "https://github.com/brhubbar/aoc-2024-ts#readme",
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.6"
+  }
+}
