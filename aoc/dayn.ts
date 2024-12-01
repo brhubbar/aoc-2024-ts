@@ -1,4 +1,5 @@
 import { Day } from ".";
+import { debug } from "./utils";
 
 export default [
   function part1(contents: string): number {

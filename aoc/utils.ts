@@ -1,4 +1,4 @@
-export function debug(message: string) {
+export function debug(message: any) {
   if (process.env.IS_TEST == undefined) {
     return;
   }
