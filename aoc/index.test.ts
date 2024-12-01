@@ -10,17 +10,18 @@ describe.each([
   {
     day: 1,
     part: 1,
-    expected: 1,
+    expected: 11,
   },
   {
     day: 1,
     part: 2,
-    expected: 3,
+    expected: 31,
   },
 ])("Day $day part $part", ({ day, part, expected }) => {
   beforeEach(() => {
     vi.unstubAllEnvs();
     vi.stubEnv("INPUTS_FOLDER", path.join(AOC_FOLDER, "test_inputs"));
+    vi.stubEnv("IS_TEST", "1");
   });
 
   it(`should return ${expected}`, async () => {
