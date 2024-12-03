@@ -1,5 +1,5 @@
 export function debug(message: any) {
-  if (process.env.IS_TEST == undefined) {
+  if (process.env.DEBUG == undefined) {
     return;
   }
   console.log(message);
