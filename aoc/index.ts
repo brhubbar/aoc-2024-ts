@@ -2,6 +2,7 @@ import { readFile, readFileSync } from "node:fs";
 import * as path from "path";
 import day1 from "./day1";
 import day2 from "./day2";
+import day3 from "./day3";
 
 // /
 const PROJECT_ROOT = path.dirname(__dirname);
@@ -19,4 +20,4 @@ export default async function main(day: number, part: number): Promise<number> {
 
 export type Day = { (contents: string): number }[];
 
-const DAYS: Day[] = [day1, day2];
+const DAYS: Day[] = [day1, day2, day3];
