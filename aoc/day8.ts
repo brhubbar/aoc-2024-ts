@@ -53,9 +53,14 @@ export default [
     let antinodesReal = antinodesCompl.map<number>((val) => realIdx(val) ?? -1);
     antinodesReal = antinodesReal.filter(
       (val, idx, array) =>
-        val >= 0 && val < contents.length && array.indexOf(val) == idx,
+        val >= 0 && val < contents.length - 1 && array.indexOf(val) == idx,
     );
     debug(antinodesReal);
+    for (let node of antinodesReal) {
+      contents =
+        contents.substring(0, node) + "#" + contents.substring(node + 1);
+    }
+    debug(contents);
 
     return antinodesReal.length;
   },
@@ -76,7 +81,7 @@ function createConverters(width: number): {
       return math.complex(i, j);
     },
     realIdx: (idx: math.Complex): number | undefined => {
-      if (idx.re < 0 || idx.re >= width || idx.im < 0) return undefined;
+      if (idx.re < 0 || idx.re >= width - 1 || idx.im < 0) return undefined;
       return idx.re + idx.im * width;
     },
   };
