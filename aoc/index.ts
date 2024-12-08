@@ -10,7 +10,7 @@ import day7 from "./day7.js";
 import day8 from "./day8.js";
 
 // /
-const PROJECT_ROOT = path.dirname(__dirname);
+const PROJECT_ROOT = path.dirname(import.meta.dirname);
 const DEFAULT_INPUTS_FOLDER = path.join(PROJECT_ROOT, "inputs");
 
 export default async function main(day: number, part: number): Promise<number> {

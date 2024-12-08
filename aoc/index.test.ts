@@ -4,7 +4,7 @@ import aoc from "./index.js";
 import * as path from "path";
 
 // /aoc
-const AOC_FOLDER = __dirname;
+const AOC_FOLDER = import.meta.dirname;
 
 describe.each([
   {
