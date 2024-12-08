@@ -1,5 +1,5 @@
-import { Day } from ".";
-import { debug } from "./utils";
+import { Day } from "./index.js";
+import { debug } from "./utils.js";
 
 // Really proud of this one. At first, I was going to compute the total number of
 // permutations and then run each of them individually. However, I realized that'd

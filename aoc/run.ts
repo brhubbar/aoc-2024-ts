@@ -1,4 +1,4 @@
-import aoc from "./index";
+import aoc from "./index.js";
 
 const DAY: number = JSON.parse(process.argv[2]) ?? 1;
 

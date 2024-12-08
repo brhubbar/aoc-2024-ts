@@ -1,5 +1,5 @@
-import { Day } from ".";
-import { debug } from "./utils";
+import { Day } from "./index.js";
+import { debug } from "./utils.js";
 
 // Upon reading some reddit solutions, I learned that this is a pretty long way to
 // implement this. Alternatives ran the whole walk, then put an obstruction in each

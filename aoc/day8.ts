@@ -1,6 +1,6 @@
 import * as math from "mathjs";
-import { Day } from "./index";
-import { debug } from "./utils";
+import { Day } from "./index.js";
+import { debug } from "./utils.js";
 
 export default [
   function part1(contents: string): number {

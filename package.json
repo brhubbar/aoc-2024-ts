@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Advent of Code 2024, in typescript",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "day": "npx ts-node aoc/run.ts",
     "test": "npx vitest"
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/brhubbar/aoc-2024-ts#readme",
   "devDependencies": {
+    "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.10.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
