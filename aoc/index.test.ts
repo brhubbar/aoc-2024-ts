@@ -8,15 +8,25 @@ const AOC_FOLDER = __dirname;
 
 describe.each([
   {
-    day: 7,
+    day: 8,
     part: 1,
-    expected: 3749,
+    expected: 14,
   },
   {
-    day: 7,
+    day: 8,
     part: 2,
     expected: 11387,
   },
+  // {
+  //   day: 7,
+  //   part: 1,
+  //   expected: 3749,
+  // },
+  // {
+  //   day: 7,
+  //   part: 2,
+  //   expected: 11387,
+  // },
   // {
   //   day: 6,
   //   part: 1,
