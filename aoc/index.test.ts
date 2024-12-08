@@ -15,7 +15,7 @@ describe.each([
   {
     day: 8,
     part: 2,
-    expected: 11387,
+    expected: 34,
   },
   // {
   //   day: 7,

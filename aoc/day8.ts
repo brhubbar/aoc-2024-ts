@@ -5,14 +5,14 @@ import { debug } from "./utils.js";
 export default [
   function part1(contents: string): number {
     let width = contents.indexOf("\n") + 1;
-    let { complIdx, realIdx } = createConverters(width);
+    let { complIdx, realIdx } = createConverters(width, contents.length);
 
     let frequencies = Array(...contents).filter(
       (val, idx, array) =>
         val != "." && val != "\n" && array.indexOf(val) == idx,
     );
 
-    let antinodesCompl: math.Complex[] = [];
+    let antinodes: number[] = [];
     for (const frequency of frequencies) {
       // Need all combinations. Another use case for collapsing search.
       //   - Find complIdx of all.
@@ -44,33 +44,95 @@ export default [
         let left = locationsCompl.pop()!;
         for (let right of locationsCompl) {
           let delta = math.subtract(right, left);
-          antinodesCompl.push(math.add(right, delta));
-          antinodesCompl.push(math.subtract(left, delta));
+          let antinodeR = realIdx(math.add(right, delta));
+          if (antinodeR != undefined) antinodes.push(antinodeR);
+          let antinodeL = realIdx(math.subtract(left, delta));
+          if (antinodeL != undefined) antinodes.push(antinodeL);
         }
       }
-      debug(antinodesCompl);
+      debug(antinodes);
     }
-    let antinodesReal = antinodesCompl.map<number>((val) => realIdx(val) ?? -1);
-    antinodesReal = antinodesReal.filter(
-      (val, idx, array) =>
-        val >= 0 && val < contents.length - 1 && array.indexOf(val) == idx,
+    antinodes = antinodes.filter(
+      (val, idx, array) => array.indexOf(val) == idx,
     );
-    debug(antinodesReal);
-    for (let node of antinodesReal) {
+    // debug(antinodes);
+    // for (let node of antinodes) {
+    //   contents =
+    //     contents.substring(0, node) + "#" + contents.substring(node + 1);
+    // }
+    // debug(contents);
+
+    return antinodes.length;
+  },
+
+  function part2(contents: string): number {
+    debug(contents);
+    let width = contents.indexOf("\n") + 1;
+    let { complIdx, realIdx } = createConverters(width, contents.length);
+
+    let frequencies = Array(...contents).filter(
+      (val, idx, array) =>
+        val != "." && val != "\n" && array.indexOf(val) == idx,
+    );
+
+    let antinodes: number[] = [];
+    for (const frequency of frequencies) {
+      debug(`Freq: ${frequency}`);
+      let locationsReal: number[] = [];
+      for (let _ = 0; _ < contents.length; _++) {
+        let searchStart = (locationsReal.slice(-1)[0] ?? -1) + 1;
+        let nextIdx = contents.indexOf(frequency, searchStart);
+        if (nextIdx == -1) break;
+        locationsReal.push(nextIdx);
+      }
+      let locationsCompl = locationsReal.map<math.Complex>((val) =>
+        complIdx(val),
+      );
+      debug(locationsCompl);
+
+      while (locationsCompl.length > 0) {
+        let left = locationsCompl.pop()!;
+        for (let right of locationsCompl) {
+          debug(`Left: ${left}, Right: ${right}`);
+          let delta = math.subtract(right, left);
+          debug(`Delta: ${delta}`);
+          let antinodeRC = right;
+          let antinodeRR;
+          for (let iNode: number = 0; iNode < contents.length; iNode++) {
+            antinodeRR = realIdx(antinodeRC);
+            if (antinodeRR == undefined) break;
+            antinodes.push(antinodeRR);
+            antinodeRC = math.add(antinodeRC, delta);
+          }
+          let antinodeLC = left;
+          let antinodeLR;
+          for (let iNode: number = 0; iNode < contents.length; iNode++) {
+            antinodeLR = realIdx(antinodeLC);
+            if (antinodeLR == undefined) break;
+            antinodes.push(antinodeLR);
+            antinodeLC = math.subtract(antinodeLC, delta);
+          }
+        }
+      }
+    }
+    antinodes = antinodes.filter(
+      (val, idx, array) => array.indexOf(val) == idx,
+    );
+    debug(antinodes);
+    for (let node of antinodes) {
       contents =
         contents.substring(0, node) + "#" + contents.substring(node + 1);
     }
     debug(contents);
 
-    return antinodesReal.length;
-  },
-
-  function part2(contents: string): number {
-    return 0;
+    return antinodes.length;
   },
 ] satisfies Day;
 
-function createConverters(width: number): {
+function createConverters(
+  width: number,
+  length: number,
+): {
   complIdx: (idx: number) => math.Complex;
   realIdx: (idx: math.Complex) => number | undefined;
 } {
@@ -81,8 +143,11 @@ function createConverters(width: number): {
       return math.complex(i, j);
     },
     realIdx: (idx: math.Complex): number | undefined => {
+      // Return undefined if the value is out of range of the map.
       if (idx.re < 0 || idx.re >= width - 1 || idx.im < 0) return undefined;
-      return idx.re + idx.im * width;
+      let ret = idx.re + idx.im * width;
+      if (ret >= length - 1) return undefined;
+      return ret;
     },
   };
 }
