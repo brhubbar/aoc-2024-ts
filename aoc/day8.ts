@@ -2,6 +2,10 @@ import * as math from "mathjs";
 import { Day } from "./index.js";
 import { debug } from "./utils.js";
 
+// Note to future self - this is a good one for discussion later; the use of complex
+// numbers is interesting and [statistically](https://adventofcode.com/2024/stats) part
+// two killed a lot of people.
+
 export default [
   function part1(contents: string): number {
     let width = contents.indexOf("\n") + 1;
