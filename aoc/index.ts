@@ -9,6 +9,7 @@ import day6 from "./day6.js";
 import day7 from "./day7.js";
 import day8 from "./day8.js";
 import day9 from "./day9.js";
+import day10 from "./day10.js";
 
 // /
 const PROJECT_ROOT = path.dirname(import.meta.dirname);
@@ -26,4 +27,15 @@ export default async function main(day: number, part: number): Promise<number> {
 
 export type Day = { (contents: string): number }[];
 
-const DAYS: Day[] = [day1, day2, day3, day4, day5, day6, day7, day8, day9];
+const DAYS: Day[] = [
+  day1,
+  day2,
+  day3,
+  day4,
+  day5,
+  day6,
+  day7,
+  day8,
+  day9,
+  day10,
+];
