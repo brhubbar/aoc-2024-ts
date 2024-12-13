@@ -1,4 +1,4 @@
-import { readFile, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import * as path from "path";
 import day1 from "./day1.js";
 import day2 from "./day2.js";
@@ -12,6 +12,7 @@ import day9 from "./day9.js";
 import day10 from "./day10.js";
 import day11 from "./day11.js";
 import day12 from "./day12.js";
+import day13 from "./day13.js";
 
 // /
 const PROJECT_ROOT = path.dirname(import.meta.dirname);
@@ -42,4 +43,5 @@ const DAYS: Day[] = [
   day10,
   day11,
   day12,
+  day13,
 ];
