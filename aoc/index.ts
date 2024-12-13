@@ -11,6 +11,7 @@ import day8 from "./day8.js";
 import day9 from "./day9.js";
 import day10 from "./day10.js";
 import day11 from "./day11.js";
+import day12 from "./day12.js";
 
 // /
 const PROJECT_ROOT = path.dirname(import.meta.dirname);
@@ -40,4 +41,5 @@ const DAYS: Day[] = [
   day9,
   day10,
   day11,
+  day12,
 ];
