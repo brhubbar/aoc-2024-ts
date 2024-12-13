@@ -9,7 +9,7 @@ export default [
       .trim()
       .split(/\s+/)
       .map<number>((val) => Number(val));
-    // stones = blink(stones, 25);
+    stones = blink(stones, 25);
     return stones.length;
   },
 
@@ -22,43 +22,34 @@ export default [
     //
     // Otherwise, I need to do some sort of proof to determine the split path of a
     // number based on its digits. Can I prove how long does it take to start splitting?
+    //
+    // Doing the above didn't actually work.. unclear if it was due to list growth or
+    // lack of garbage collection.
+    //
+    // Either way, reddit steered me correct - count how many identical stones I have,
+    // rather than re-splitting them many, many times.
+    //
     // Order is preserved, so I can process each one separately (since they never join).
-    let nSplits = 3;
-    let blinkCount = process.env.DEBUG ? 25 : 75;
-    let nPredestined = 10;
-    // Build a nested array. Doing this before hand so we can fill backward.
-    // predestined[stoneValue][nBlinksThusFar - 1]
-    let predestined: number[][] = Array(nPredestined)
-      .fill(0)
-      .map<number[]>(() => Array(blinkCount * nSplits));
-    for (let startVal = nPredestined - 1; startVal >= 0; startVal--) {
-      let stones = [startVal];
-      for (let iBlink = 0; iBlink < blinkCount * nSplits; iBlink++) {
-        let newStones: number[] = [];
-        for (const stone of stones) {
-          newStones.push(...blinkOneStone(stone));
-        }
-        predestined[startVal][blinkCount - iBlink - 1] = newStones.length;
-        stones = newStones;
-      }
-    }
-
-    // let stones: number[] = JSON.parse(contents);
     let stones: number[] = contents
       .trim()
       .split(/\s+/)
       .map<number>((val) => Number(val));
-    // return blink(stones, blinkCount).length;
-    // This is better, and won't run into the gc issues I've been battling.
-    // https://www.reddit.com/r/adventofcode/comments/1hbm0al/comment/m1hq273/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-    return blinkWithPredestined(stones, 0, blinkCount, predestined); // + 216042 + 16907035 + 550518807 = 567641884 <-- too low
+    let sensibleStones: StoneMap = {};
+    for (const stone of stones) {
+      sensibleStones[stone] = (sensibleStones[stone] ?? 0) + 1;
+    }
+    sensibleStones = blinkEfficiently(sensibleStones, 75);
+    let nStones = 0;
+    for (const stone in sensibleStones) {
+      nStones += sensibleStones[stone];
+    }
+    return nStones;
   },
 ] satisfies Day;
 
 function blink(stones: number[], blinkCount: number): number[] {
   for (let iBlink = 0; iBlink < blinkCount; iBlink++) {
-    debug(iBlink);
-    debug(stones.length);
+    debug(`Blink ${iBlink}, ${stones.length} stones`);
     let newStones: number[] = [];
     for (const stone of stones) {
       newStones.push(...blinkOneStone(stone));
@@ -68,47 +59,23 @@ function blink(stones: number[], blinkCount: number): number[] {
   return stones;
 }
 
-function blinkWithPredestined(
-  stones: number[],
-  iSkipped: number,
-  blinkCount: number,
-  predestined: number[][],
-): number {
-  let nStones = 0;
-  for (let iBlink = iSkipped; iBlink < blinkCount + iSkipped; iBlink++) {
-    debug(`${iBlink}: ${stones.length} to compute, ${nStones} predetermined`);
+function blinkEfficiently(stones: StoneMap, blinkCount: number): StoneMap {
+  for (let iBlink = 0; iBlink < blinkCount; iBlink++) {
+    debug(`Blink ${iBlink}, ${Object.keys(stones).length} unique stones`);
 
-    let { stones: newStones, predestinedNStones } = blinkOnceWithPredestined(
-      stones,
-      iBlink,
-      predestined,
-    );
-    stones = newStones;
-    nStones += predestinedNStones;
-  }
-  nStones += stones.length;
-  writeFileSync("./intermediate.txt", JSON.stringify(stones), {
-    encoding: "utf-8",
-  });
+    let newStones: StoneMap = {};
 
-  return nStones;
-}
-
-function blinkOnceWithPredestined(
-  stones: number[],
-  iBlink: number,
-  predestined: number[][],
-): { stones: number[]; predestinedNStones: number } {
-  let nStones = 0;
-  let newStones: number[] = [];
-  for (const stone of stones) {
-    if (stone < predestined.length) {
-      nStones += predestined[stone][iBlink];
-      continue;
+    for (const stone in stones) {
+      let stoneMultiplier = stones[stone];
+      let newEngravings = blinkOneStone(Number(stone));
+      for (const newStone of newEngravings) {
+        newStones[newStone] = (newStones[newStone] ?? 0) + stoneMultiplier;
+      }
     }
-    newStones.push(...blinkOneStone(stone));
+
+    stones = newStones;
   }
-  return { stones: newStones, predestinedNStones: nStones };
+  return stones;
 }
 
 function blinkOneStone(stone: number): number[] {
@@ -126,3 +93,5 @@ function blinkOneStone(stone: number): number[] {
     return [stone * 2024];
   }
 }
+
+type StoneMap = { [engraving: number]: number };
