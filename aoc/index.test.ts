@@ -8,15 +8,25 @@ const AOC_FOLDER = import.meta.dirname;
 
 describe.each([
   {
-    day: 13,
+    day: 14,
     part: 1,
-    expected: 480,
+    expected: 12,
   },
   {
-    day: 13,
+    day: 14,
     part: 2,
     expected: 1206,
   },
+  // {
+  //   day: 13,
+  //   part: 1,
+  //   expected: 480,
+  // },
+  // {
+  //   day: 13,
+  //   part: 2,
+  //   expected: 1206,
+  // },
   // {
   //   day: 12,
   //   part: 1,
@@ -143,6 +153,7 @@ describe.each([
     vi.unstubAllEnvs();
     vi.stubEnv("INPUTS_FOLDER", path.join(AOC_FOLDER, "test_inputs"));
     vi.stubEnv("DEBUG", "1");
+    vi.stubEnv("TEST", "1");
   });
 
   it(`should return ${expected}`, async () => {
