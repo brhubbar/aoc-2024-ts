@@ -1,5 +1,16 @@
 import { Day } from "./index.js";
-import { debug } from "./utils.js";
+import {
+  debug,
+  Idx1DFn,
+  Idx2DFn,
+  Pos1D,
+  Pos2D,
+  Direction,
+  directions,
+  createPositionConverters,
+  MoveFn,
+  getMove,
+} from "./utils.js";
 
 export default [
   function part1(contents: string): number {

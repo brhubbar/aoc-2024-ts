@@ -8,10 +8,20 @@ const AOC_FOLDER = import.meta.dirname;
 
 describe.each([
   {
-    day: 14,
+    day: 15,
     part: 1,
-    expected: 12,
+    expected: 10092,
   },
+  {
+    day: 15,
+    part: 2,
+    expected: 9021,
+  },
+  // {
+  //   day: 14,
+  //   part: 1,
+  //   expected: 12,
+  // },
   // {
   //   day: 13,
   //   part: 1,
