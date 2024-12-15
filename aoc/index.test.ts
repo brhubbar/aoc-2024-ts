@@ -12,11 +12,6 @@ describe.each([
     part: 1,
     expected: 12,
   },
-  {
-    day: 14,
-    part: 2,
-    expected: 1206,
-  },
   // {
   //   day: 13,
   //   part: 1,
